@@ -63,20 +63,20 @@ def preprocess_data(stock_file, economic_file):
     economic_data = handle_duplicates(economic_data)
 
     for col in STOCK_COLS:
-        
-        # # Removal of outliers
-        # Q1 = stock_data[col].quantile(0.25)
-        # Q3 = stock_data[col].quantile(0.75)
-        # IQR = Q3 - Q1
-        # stock_data = stock_data[~((stock_data[col] < (Q1 - 1.5 * IQR)) | (stock_data[col] > (Q3 + 1.5 * IQR)))]
+        '''
+        # Removal of outliers
+        Q1 = stock_data[col].quantile(0.25)
+        Q3 = stock_data[col].quantile(0.75)
+        IQR = Q3 - Q1
+        stock_data = stock_data[~((stock_data[col] < (Q1 - 1.5 * IQR)) | (stock_data[col] > (Q3 + 1.5 * IQR)))]
 
 
-        # # Median replacement
-        # Q1 = stock_data[col].quantile(0.25)
-        # Q3 = stock_data[col].quantile(0.75)
-        # IQR = Q3 - Q1
-        # stock_data.loc[((stock_data[col] < (Q1 - 1.5 * IQR)) | (stock_data[col] > (Q3 + 1.5 * IQR))), col] = stock_data[col].median()
-
+        # Median replacement
+        Q1 = stock_data[col].quantile(0.25)
+        Q3 = stock_data[col].quantile(0.75)
+        IQR = Q3 - Q1
+        stock_data.loc[((stock_data[col] < (Q1 - 1.5 * IQR)) | (stock_data[col] > (Q3 + 1.5 * IQR))), col] = stock_data[col].median()
+        '''
         #Capped outliers
         Q1 = stock_data[col].quantile(0.25)
         Q3 = stock_data[col].quantile(0.75)
@@ -85,19 +85,21 @@ def preprocess_data(stock_file, economic_file):
         stock_data.loc[stock_data[col] > (Q3 + 1.5 * IQR), col] = Q3 + 1.5 * IQR
 
     for col in ECONOMIC_COLS:
-        # # Removal of outliers
-        # Q1 = economic_data[col].quantile(0.25)
-        # Q3 = economic_data[col].quantile(0.75)
-        # IQR = Q3 - Q1
-        # economic_data = economic_data[~((stock_data[col] < (Q1 - 1.5 * IQR)) | (economic_data[col] > (Q3 + 1.5 * IQR)))]
+        '''
+        # Removal of outliers
+        Q1 = economic_data[col].quantile(0.25)
+        Q3 = economic_data[col].quantile(0.75)
+        IQR = Q3 - Q1
+        economic_data = economic_data[~((stock_data[col] < (Q1 - 1.5 * IQR)) | (economic_data[col] > (Q3 + 1.5 * IQR)))]
 
 
-        # # Median replacement
-        # Q1 = economic_data[col].quantile(0.25)
-        # Q3 = economic_data[col].quantile(0.75)
-        # IQR = Q3 - Q1
-        # economic_data.loc[((economic_data[col] < (Q1 - 1.5 * IQR)) | (economic_data[col] > (Q3 + 1.5 * IQR))), col] = economic_data[col].median()
-
+        # Median replacement
+        Q1 = economic_data[col].quantile(0.25)
+        Q3 = economic_data[col].quantile(0.75)
+        IQR = Q3 - Q1
+        economic_data.loc[((economic_data[col] < (Q1 - 1.5 * IQR)) | (economic_data[col] > (Q3 + 1.5 * IQR))), col] = economic_data[col].median()
+        '''
+        
         #Capped outliers
         Q1 = economic_data[col].quantile(0.25)
         Q3 = economic_data[col].quantile(0.75)
@@ -110,13 +112,6 @@ def preprocess_data(stock_file, economic_file):
     stock_data, economic_data = align_timeframes(stock_data, economic_data)
 
     combined_data = pd.concat([stock_data, economic_data], axis=1)
-
-    '''
-        Dropping rows with only 2 non-NaN cells 
-        due to weekends/non-trading days leaving
-        almost empty rows.
-    '''
-    # combined_data = combined_data.dropna(thresh=2)
 
     '''
         checking if needed to preemtively fill the first empty cell

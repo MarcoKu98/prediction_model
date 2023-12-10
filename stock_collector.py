@@ -17,11 +17,16 @@ startDateStr = startDate.isoformat()
 
 
 def fetch_stock_data(stock_symbol):
-    # Validate user input
-    if not stock_symbol:
-        print("You must enter a stock symbol.")
-        return
+    '''
+    Fetch stock data from Alpha Vantage and save it to a CSV file.
 
+    Parameters:
+    stock_symbol (str): The stock symbol to fetch data for.
+
+    Raises:
+    ValueError: If the stock symbol is invalid.
+    ValueError: If no data is found for the stock symbol.
+    '''
     try:
         # Ticker object for the stock
         ticker = yf.Ticker(stock_symbol)
@@ -30,10 +35,10 @@ def fetch_stock_data(stock_symbol):
         if not ticker.info:
             raise ValueError(f"{stock_symbol} is not a valid stock symbol.")
 
-        # Fetch data using yfinance
+        # Fetch data using history from yfinance
         data = ticker.history(start=startDateStr, end=endDateStr)
 
-        # Check if any data was returned
+        # Check returned data
         if data.empty:
             raise ValueError(f"No data found for {stock_symbol}.")
 

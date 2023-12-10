@@ -14,10 +14,8 @@ api_key = os.getenv("NASDAQ_DATA_LINK_API_KEY")
 if api_key is None:
     raise ValueError("NASDAQ_DATA_LINK_API_KEY not found, refer to setup instructions")
 
-'''
-    Setting up current date as the last date to retrieve
-    and start date as 10 years ago
-'''
+# Setting up current date as the last date to retrieve
+# and start date as 10 years ago
 endDate = datetime.date.today()
 startDate = endDate - datetime.timedelta(days=365*20)
 
@@ -26,17 +24,23 @@ endDateStr = endDate.isoformat()
 startDateStr = startDate.isoformat()
 
 def fetch_economic_data():
+    """
+    Fetch economic data from the Nasdaq Data Link API and save it to a CSV file.
+    
+    """
+
     decision = input("Do you want to fetch economic data? (y/n): ")
     if decision.lower() != 'y':
         return
 
     try:
-        # Fetch the economic indicators for 10 years
+        # Fetching 10 years of data
         interest_rates = ndl.get("FRED/DTB3", start_date = startDateStr, end_date = endDateStr)  # 3-Month Treasury Bill: Secondary Market Rate
         inflation_rates = ndl.get("FRED/CPIAUCSL", start_date = startDateStr, end_date = endDateStr)  # USA Consumer Price Index
         gdp_growth = ndl.get("FRED/GDP", start_date = startDateStr, end_date = endDateStr)  # Gross Domestic Product
         unemployment_rates = ndl.get("FRED/UNRATE", start_date = startDateStr, end_date = endDateStr)  # Unemployment Rate
         ppi = ndl.get("FRED/PPIACO", start_date = startDateStr, end_date = endDateStr)  # Producer Price Index by Commodity: All Commodities
+    
     except Exception as e:
         print(f"Error fetching economic indicator data: {e}")
         sys.exit(1)

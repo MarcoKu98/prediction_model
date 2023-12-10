@@ -1,7 +1,7 @@
 import pandas as pd
 
 def load_data(file_name):
-    """
+    '''
     Load data from a CSV file and set 'Date' as index.
 
     Parameters:
@@ -12,7 +12,7 @@ def load_data(file_name):
 
     Raises:
     FileNotFoundError: If the file does not exist.
-    """
+    '''
     try:
         # Load data
         data = pd.read_csv(file_name)
