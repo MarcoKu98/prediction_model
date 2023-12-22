@@ -1,3 +1,7 @@
+# DISCLAIMER
+
+This project is not the final product. As stock prediction is very complex and requires multiple analyses, what this project displays is only a small portion of the analysis that needs to be done to get a somewhat accurate stock prediction.
+
 # Stock Prediction Model
 
 This project focuses on building a predictive model that forecasts whether the price will increase or not, on a chosen stock's historical data, as well as economic indicators for the same time frame.
